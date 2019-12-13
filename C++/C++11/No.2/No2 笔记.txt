@@ -1,0 +1,45 @@
+1.C++中会将NULL等价为0，所以在一些函数重载的时候会产生歧义，所以建议要使用NULL的时候使用nullptr来代替
+2.auto
+	使用 auto 进行类型推导的一个最为常见而且显著的例子就是迭代器
+	for(vector<int>::const_iterator itr = vec.cbegin(); itr != vec.cend(); ++itr)
+	而有了 auto 之后可以：for(auto itr = vec.cbegin(); itr != vec.cend(); ++itr);
+	其他：
+		auto i = 5;             // i 被推导为 int
+		auto arr = new auto(10) // arr 被推导为 int *
+		注意：auto 不能用于函数传参，因此下面的做法是无法通过编译的（考虑重载的问题，我们应该使用模板）：
+		int add(auto x, auto y);
+		此外，auto 还不能用于推导数组类型：
+3.decltype 关键字是为了解决 auto 关键字只能对变量进行类型推导的缺陷而出现的。它的用法和 sizeof 很相似：
+	decltype(表达式)
+
+4.外部模板
+	传统 C++ 中，模板只有在使用时才会被编译器实例化。换句话说，只要在每个编译单元（文件）中编译的代码中遇到了被完整定义的模板，都会实例化。这就产生了重复实例化而导致的编译时间的增加。并且，我们没有办法通知编译器不要触发模板实例化。
+
+	C++11 引入了外部模板，扩充了原来的强制编译器在特定位置实例化模板的语法，使得能够显式的告诉编译器何时进行模板的实例化：
+		template class std::vector<bool>;            // 强行实例化
+		extern template class std::vector<double>;  // 不在该编译文件中实例化模板
+
+5.类型别名模板
+	在了解类型别名模板之前，需要理解『模板』和『类型』之间的不同。仔细体会这句话：模板是用来产生类型的。在传统 C++中，typedef 可以为类型定义一个新的名称，但是却没有办法为模板定义一个新的名称。因为，模板不是类型。例如：
+		template< typename T, typename U, int value>
+		class SuckType {
+		public:
+    		T a;
+    		U b;
+    		SuckType():a(value),b(value){}
+		};
+		template< typename U>
+		typedef SuckType<std::vector<int>, U, 1> NewType; // 不合法
+
+		template <typename T>
+		using NewType = SuckType<int,T,1>;
+
+6.
+	C++11 引入了委托构造的概念，这使得构造函数可以在同一个类中一个构造函数调用另一个构造函数，从而达到简化代码的目的
+
+	继承构造:在传统 C++ 中，构造函数是得不到继承的。如果一个子类代码没有编写对应的构造函数，那么将不能够直接使用父类的构造函数。这实际上是相当反自觉的一件事情，因此 C++11 引入了继承构造函数的概念
+
+	C++11 允许显式的声明采用或拒绝编译器自带的函数
+
+
+	
