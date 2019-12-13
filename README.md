@@ -1,6 +1,6 @@
 ## Code Learning
 
-### C++
+### C/C++
 
 ### Go
 
