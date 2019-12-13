@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/walter/Desktop/CppTest/namespace/main.cpp
+main.h
+/Users/walter/Desktop/CppTest/namespace/main.h
+iostream
+-
+
+/Users/walter/Desktop/CppTest/namespace/main.h
+iostream
+-
+
