@@ -1,0 +1,129 @@
+3,5c3
+< import(
+<         "fmt"
+<       )
+---
+> import "fmt"
+7,10c5,8
+< type Hume struct{
+<     name string
+<         age int
+<         pthone string
+---
+> type Human struct { // 结构体
+>     name  string
+>         age   int
+>         phone string
+13,15c11,14
+< func (h Hume) sayHi(){
+<     fmt.Printf("hi i am hume\n")
+< } 
+---
+> //Human实现SayHi方法
+> func (h Human) SayHi() {
+>     fmt.Printf("Hi, I am %s you can call me on %s\n", h.name, h.phone)
+> }
+17,18c16,18
+< func (h Hume) sing(str string){
+<     fmt.Printf("lalala %s\n",str);
+---
+> //Human实现Sing方法
+> func (h Human) Sing(lyrics string) {
+>     fmt.Println("La la la la...", lyrics)
+21,24c21,24
+< type student struct{
+<     Hume 
+<     school string
+<     loan float32
+---
+> type Student struct {
+>     Human  //匿名字段
+>         school string
+>         loan   float32
+27,30c27,30
+< type employee struct{
+<     Hume
+<     company string
+<     money float32
+---
+> type Employee struct {
+>     Human   //匿名字段
+>         company string
+>         money   float32
+33,35c33,36
+< //重载函数
+< func (emp employee) sayHi(str string){
+<     fmt.Printf("i am emp,%s\n",str)
+---
+> // Employee重载Human的SayHi方法
+> func (e Employee) SayHi() {
+>     fmt.Printf("Hi, I am %s, I work at %s. Call me on %s\n", e.name,
+>             e.company, e.phone)
+38,40c39,43
+< type Mem interface{
+<     sayHi()
+<     sing(str string)
+---
+> // Interface Men被Human,Student和Employee实现
+> // 因为这三个类型都实现了这两个方法
+> type Men interface {
+>     SayHi()
+>         Sing(lyrics string)
+43,47c46,53
+< func main(){
+< mike := student{Hume{"mike",22,"12345"},"bz",0.00}  
+< paul := student{Hume{"Paul", 26, "111-222-XXX"}, "Harvard", 100}
+< sam := employee{Hume{"Sam", 36, "444-222-XXX"}, "Golang Inc.", 1000}
+< Tom := employee{Hume{"Tom", 37, "222-444-XXX"}, "Things Ltd.", 5000}
+---
+> func main() {
+> mike := Student{Human{"Mike", 25, "222-222-XXX"}, "MIT", 0.00}
+> paul := Student{Human{"Paul", 26, "111-222-XXX"}, "Harvard", 100}
+> sam := Employee{Human{"Sam", 36, "444-222-XXX"}, "Golang Inc.", 1000}
+> Tom := Employee{Human{"Tom", 37, "222-444-XXX"}, "Things Ltd.", 5000}
+> 
+>      //定义Men类型的变量i
+>      var i Men
+49c55
+<      var i Mem
+---
+>          //i能存储Student
+51,53c57,59
+<          fmt.Printf("this mike,student")
+<          i.sayHi()
+<          i.sing("zx")
+---
+>          fmt.Println("This is Mike, a Student:")
+>          i.SayHi()
+>          i.Sing("November rain")
+56c62
+<          i = Tom 
+---
+>          i = Tom
+58,63c64,65
+<          i.sayHi()
+<          i.sing("Born to be wild")
+<         
+<         fmt.Println("Let's use a slice of Men and see what happens")
+<         x := make([]Mem,3)
+<         x[0],x[1],x[2] = paul, sam, mike
+---
+>          i.SayHi()
+>          i.Sing("Born to be wild")
+65,68c67,75
+< 
+<         for _,value := range(x){
+<             value.sayHi()
+<         }
+---
+>          //定义了slice Men
+>          fmt.Println("Let's use a slice of Men and see what happens")
+>          x := make([]Men, 3)
+>          //这三个都是不同类型的元素，但是他们实现了interface同一个接口
+>          x[0], x[1], x[2] = paul, sam, mike
+> 
+>          for _, value := range x {
+>              value.SayHi()
+>          }
+69a77
+> 
